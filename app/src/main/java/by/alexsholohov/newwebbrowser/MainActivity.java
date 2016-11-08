@@ -22,17 +22,5 @@ public class MainActivity extends Activity
 
 		//ActionBar actionBar = getActionBar();
 		//actionBar.hide();
-		
-		final Window mRootWindow = getWindow();
-		View mRootView = mRootWindow.getDecorView().findViewById(android.R.id.content);
-		mRootView.getViewTreeObserver().addOnGlobalLayoutListener(
-			new ViewTreeObserver.OnGlobalLayoutListener() {
-				public void onGlobalLayout(){
-					Rect r = new Rect();
-					View view = mRootWindow.getDecorView();
-					view.getWindowVisibleDisplayFrame(r);
-					// r.left, r.top, r.right, r.bottom
-				}
-			});
     }
 }

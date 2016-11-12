@@ -12,7 +12,7 @@
 		<script type="text/javascript" src="js/emoticons.js"></script>
 		<title>Форма ввода и редактировани сообщения</title>
 	</head>
-	<body id="bbcodes" style="font-family:inherit;">
+	<body id="bbcodes" style="font-family:inherit;" hidden>
 		<script type="text/javascript" src="/js/less-dev.js"></script>
 		<div class="bb_codes_editor">
 			<div class="text_form">
@@ -206,17 +206,17 @@ top: 0.15rem;
 				<span class="btn align_left" onclick="bbCode('[LEFT]','[/LEFT]')"><img src="align_left.svg"></span>
 				<span class="btn align_center" onclick="bbCode('[CENTER]','[/CENTER]')"><img src="align_center.svg"></span>
 				<span class="btn align_right" onclick="bbCode('[RIGHT]','[/RIGHT]')"><img src="align_right.svg"></span>
-				<span class="btn link" onclick="bbCode('[URL]','[/URL]')"><img src="link.svg"></span>
+				<span class="btn link" onclick="bbDialog('URL')"><img src="link.svg"></span>
 				<span class="btn quote" onclick="bbCode('[QUOTE]','[/QUOTE]')"><img src="quote.svg"></span>
 				<span class="btn offtop" onclick="bbCode('[OFFTOP]','[/OFFTOP]')"><img src="offtop.svg"></span>
 				<span class="btn code" onclick="bbCode('[CODE]','[/CODE]')"><img src="code.svg"></span>
-				<span class="btn spoiler" onclick="bbCode('[SPOILER]','[/SPOILER]')"><img src="spoiler.svg"></span>
+				<span class="btn spoiler" onclick="bbDialog('SPOILER')"><img src="spoiler.svg"></span>
 				<span class="btn hide" onclick="bbCode('[HIDE]','[/HIDE]')"><img src="hide.svg"></span>
-				<span class="btn list_numbered" onclick="bbCode('[LIST=1][*]','[/LIST]')"><img src="list_numbered.svg"></span>
-				<span class="btn list_bulleted" onclick="bbCode('[LIST][*]','[/LIST]')"><img src="list_bulleted.svg"></span>
-				<span class="btn color_text" onclick="bbCode('[COLOR]','[/COLOR]')"><img src="color_text.svg"></span>
-				<span class="btn color_fill" onclick="bbCode('[BACKGROUND]','[/BACKGROUND]')"><img src="color_fill.svg"></span>
-				<span class="btn size" onclick="bbCode('[SIZE]','[/SIZE]')"><img src="size.svg"></span>
+				<span class="btn list_numbered" onclick="bbDialog('LIST=1')"><img src="list_numbered.svg"></span>
+				<span class="btn list_bulleted" onclick="bbDialog('LIST')"><img src="list_bulleted.svg"></span>
+				<span class="btn color_text" onclick="bbDialog('COLOR')"><img src="color_text.svg"></span>
+				<span class="btn color_fill" onclick="bbDialog('BACKGROUND')"><img src="color_fill.svg"></span>
+				<span class="btn size" onclick="bbDialog('SIZE')"><img src="size.svg"></span>
 				<span class="btn cur" onclick="bbCode('[CUR]','[/CUR]')"><img src="cur.svg"></span>
 			</div>
 			<div class="convert_btn">
@@ -238,6 +238,58 @@ top: 0.15rem;
 				<div class="post_body "></div>
 				<div class="post_footer"><a class="link button claim" href=""><span>Жалоба</span></a><a class="button nick" onclick=""><span>Ник</span></a><a class="button quote" onclick=""><span>Цитата</span></a><a class="button edit" id="edit-but-12345678" href=""><span>Изменить</span></a><a class="button delete" href=""><span>Удалить</span></a></div>
 				<div class="between_messages"></div>
+				<div class="color_fill" hidden>
+					<div class="color_blocks">
+						<span style="background:#000000">Black</span>
+						<span style="background:#ffffff">White</span>
+						<span style="background:skyblue">Skyblue</span>
+						<span style="background:royalblue">Royalblue</span>
+						<span style="background:blue">Blue</span>
+						<span style="background:darkblue">Darkblue</span>
+						<span style="background:orange">Orange</span>
+						<span style="background:crimson"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+						<span style="background:"></span>
+<!--[COLOR=#000000][/COLOR]
+[COLOR=#FFFFFF][/COLOR]
+[COLOR=skyblue][/COLOR]
+[COLOR=royalblue][/COLOR]
+[COLOR=blue][/COLOR]
+[COLOR=darkblue][/COLOR]
+[COLOR=orange][/COLOR]
+[COLOR=crimson][/COLOR]
+[COLOR=red][/COLOR]
+[COLOR=darkred][/COLOR]
+[COLOR=green][/COLOR]
+[COLOR=limegreen][/COLOR]
+[COLOR=seagreen][/COLOR]
+[COLOR=deeppink][/COLOR]
+[COLOR=tomato][/COLOR]
+[COLOR=coral][/COLOR]
+[COLOR=purple][/COLOR]
+[COLOR=indigo][/COLOR]
+[COLOR=burlywood][/COLOR]
+[COLOR=sandybrown][/COLOR]
+[COLOR=chocolate][/COLOR]
+[COLOR=teal][/COLOR]
+[COLOR=silver][/COLOR]-->
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

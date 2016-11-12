@@ -1,8 +1,12 @@
+var textComponent;
+// change button color, lite and dark(all else)
+// get from style name  
 function changeBBCodesTheme() {
+	textComponent = document.getElementById('text');
 	if (document.body.id != 'bbcodes') return;
 
 	var head = document.querySelector('head'),
-		lightTheme = head.querySelector('link[rel*="stylesheet"][href*="light"]'),
+		lightTheme = document.querySelector('link[rel*="stylesheet"][href*="light"]' || 'link[rel*="stylesheet"][href*="white"]'),
 		imgAll = document.querySelectorAll('.bb_panel img');
 
 	for (var i = 0; i < imgAll.length; i++) {
@@ -11,11 +15,72 @@ function changeBBCodesTheme() {
 		(lightTheme) ? theme = 'light' : theme = 'dark';
 		img.setAttribute('src', 'img/bbcodes/' + theme + '/' + img.getAttribute('src'));
 	}
-	var tex = document.querySelector('.text_form > textarea');
-	tex.addEventListener('click', function() {tex.scrollIntoView();});
 }
 document.addEventListener("DOMContentLoaded", changeBBCodesTheme);
 
+// framing selected text in tag bb-codes
+var newSel;
+function bbCode(openTag, closeTag) {
+	var textComponent = document.getElementById('text'),
+		sel,
+		bbStr = openTag + closeTag,
+		startPos = textComponent.selectionStart,
+		endPos = textComponent.selectionEnd;
+
+	textComponent.focus();
+
+	sel = textComponent.value.substring(startPos, endPos);
+	newSel = openTag + sel + closeTag;
+	textComponent.value = textComponent.value.substr(0, startPos) + newSel + textComponent.value.substr(endPos);
+	if (startPos != endPos) textComponent.setSelectionRange(startPos, endPos + bbStr.length);
+	else textComponent.setSelectionRange(startPos + openTag.length, endPos + openTag.length);
+}
+
+// dialog for select variant content tag
+function bbDialog(tag) {
+	var startPos = textComponent.selectionStart,
+		endPos = textComponent.selectionEnd,
+		pr = '',
+		str = '';
+
+	// dialog after push bb button
+	function dialog(message, hint) {
+		pr = prompt(message, hint);
+		if (pr == '') return bbCode('[' + tag + ']', '[/' + tag + ']');
+		else if (pr == null) return bbCode('', '');
+		else return bbCode('[' + tag + '=' + pr + ']', '[/' + tag + ']');
+	}
+
+	function listDialog(message, hint) {
+		while (pr != null) {
+			pr = prompt(message, hint);
+			if (pr != null) str += '[*]' + pr;
+		}
+		return bbCode('[' + tag + ']' + str, '[/list]');
+	}
+
+	function colorDialog() {
+		var colorBlock = document.createElement('input');
+		colorBlock.type = 'color';
+		colorBlock.value = '#0288d1';
+		colorBlock.hidden;
+		document.body.appendChild(colorBlock);
+		colorBlock.click();
+		colorBlock.addEventListener('change', function() {
+			return bbCode('[' + tag + '=' + colorBlock.value + ']', '[/' + tag + ']');
+		});
+	}
+
+	if (tag == 'URL') dialog('Введите URL адрес', 'http://');
+	else if (tag == 'SPOILER') dialog('Введите название спойлера:', '');
+	else if (tag == 'SIZE') dialog('Введите число от 1 до 7:', '');
+	else if (tag == 'LIST' || tag == 'LIST=1') listDialog('Введите название пункта списка:', '');
+	else if (tag == 'COLOR') colorDialog();
+	else if (tag == 'BACKGROUND') colorDialog();
+
+}
+
+// preview 
 function bbToHtml() {
 	var tex = document.querySelector('.text_form > textarea');
 	var str = tex.value;
@@ -23,6 +88,7 @@ function bbToHtml() {
 	var openTag = /\[([^\]]+)\]/gi;
 	var closeTag = /\[\/([^\]]+)\]/gi;
 
+	// parsing bb cdes
 	var bb = [/\n/gi,
 		/\[b\]([\s\S]*?)\[\/b\]/gi,
 		/\[i\]([\s\S]*?)\[\/i\]/gi,
@@ -54,6 +120,7 @@ function bbToHtml() {
 		/\[mod\]([\s\S]*?)\[\/mod\]/gi,
 		/\[ex\]([\s\S]*?)\[\/ex\]/gi];
 
+	// replace bb codes to html 
 	var html = ['<br>',
 		'<b>$1</b>',
 		'<i>$1</i>',
@@ -96,24 +163,21 @@ function bbToHtml() {
 	}
 
 	post.innerHTML = str;
+
+	// reinicialisation functions
 	blocksOpenClose();
 	numberingCodeLines();
+	document.querySelector('div[name="entry12345678"]').scrollIntoView();
 }
 
-var newSel;
-function bbCode(openTag, closeTag) {
-    var textComponent = document.getElementById('text'),
-		sel,
-		bbStr = openTag + closeTag,
-		startPos = textComponent.selectionStart,
-		endPos = textComponent.selectionEnd;
-
-	textComponent.focus();
-
-	if (startPos != endPos) {
-		sel = textComponent.value.substring(startPos, endPos);
-		newSel = openTag + sel + closeTag;
-		textComponent.value = textComponent.value.substr(0, startPos) + newSel + textComponent.value.substr(endPos);
-		textComponent.setSelectionRange(startPos, endPos + bbStr.length);
-    }
-}
+//hak for android 4.4.2 - not working css property vh
+window.addEventListener('resize', function() {
+							var b = document.body;
+							b.style.height = '99%';
+							setInterval(function() {
+											b.style.height = '';
+										}, 1);
+						});
+window.addEventListener('load', function () {
+							document.body.removeAttribute('hidden');
+						});

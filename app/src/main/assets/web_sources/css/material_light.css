@@ -3109,7 +3109,7 @@ img[src*="style_emoticons"] {
 	white-space: nowrap;
 	overflow-x: auto;
 	text-align: center;
-	background-color: rgb(235,235,235);
+	background-color: rgb(237,237,237);
 }
 .bb_panel .btn {
 	display: inline-block;
@@ -3128,9 +3128,10 @@ img[src*="style_emoticons"] {
 	left: 0;
 	right: 0;
 	display: block;
-	margin: 8px;
+	padding: 8px;
 }
 .bb_codes_editor .convert_btn button {
+	display: block;
 	width: 100%;
 	padding: 8px;
 	font-size: 16px;
@@ -3145,3 +3146,4 @@ img[src*="style_emoticons"] {
 .bb_codes_editor .convert_btn button:active {
 	opacity: 0.5;
 }
+

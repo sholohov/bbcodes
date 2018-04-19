@@ -1,6 +1,6 @@
-var textComponent;
-// change button color, lite and dark(all else)
-// get from style name  
+// change bb-codes buttons theme
+// lite or dark(all else)
+// value get from style name  
 function changeBBCodesTheme() {
 	textComponent = document.getElementById('text');
 	if (document.body.id != 'bbcodes') return;
@@ -18,7 +18,85 @@ function changeBBCodesTheme() {
 }
 document.addEventListener("DOMContentLoaded", changeBBCodesTheme);
 
-// framing selected text in tag bb-codes
+var customDialogOBJ = {
+	tag: '',
+	type: '',
+	text: ''
+};
+
+function bbDialog(tagName) {
+	customDialogOBJ.tag = tagName;
+
+	if (tagName == 'URL') createDialog('URL адрес', 'http://site.com', 'all');
+	if (tagName == 'SPOILER') createDialog('Название спойлера', 'Спойлер', 'all');
+	if (tagName == 'SIZE') createDialog('Размер текста', 'Число от 1 до 7', 'all');
+	if (tagName == 'LIST' || tagName == 'LIST=1') createDialog('Название пункта списка', 'Пункт списка', 'list');
+	if (tagName == 'COLOR') createDialog('Цвет текста', 'royalblue', 'color');
+	if (tagName == 'BACKGROUND') createDialog('Цвет фона', 'grey', 'color');
+}
+
+function createDialog(message, hint, type) {
+	var color = document.querySelector('#color'),
+		prompt = document.querySelector('#prompt');
+
+	customDialogOBJ.type = type;
+
+	if (type == 'list') {
+		bbCode('[' + customDialogOBJ.tag + ']', '[/list]');
+	}
+	if (type == 'all' || type == 'list') {
+		prompt.removeAttribute('style');
+		prompt.querySelector('.title').innerHTML = message;
+		prompt.querySelector('textarea').placeholder = hint;
+		prompt.querySelector('textarea').focus();
+	}
+	if (type == 'color') {
+		color.removeAttribute('style');
+		color.querySelector('.title').innerHTML = message;
+		color.onclick = onClickColorCell;
+		function onClickColorCell(e) {
+			var el = e.target;
+			if (el.classList.contains('cell')) {
+				bbCode('[' + customDialogOBJ.tag + '=' + el.textContent + ']', '[/' + customDialogOBJ.tag + ']');
+				cancelDialog(color);
+			}
+			return;
+		}
+	}
+}
+
+function cancelDialog(el) {
+	while (el != document.body) {
+		if (el.classList.contains('parent_dialog')) {
+			if (el.querySelector('textarea')) el.querySelector('textarea').value = '';
+			el.style.display = 'none';
+			return null;
+		}
+		el = el.parentElement;
+	}
+}
+
+function confirmDialog(el) {
+	var textarea = document.querySelector('#prompt textarea');
+	var text = textarea.value;
+
+	customDialogOBJ.text = text;
+
+	if (customDialogOBJ.type == 'all') {
+		if (text == '') bbCode('[' + customDialogOBJ.tag + ']', '[/' + customDialogOBJ.tag + ']');
+		else if (text == null) bbCode('', '');
+		else bbCode('[' + customDialogOBJ.tag + '=' + text + ']', '[/' + customDialogOBJ.tag + ']');
+		cancelDialog(el);
+	}
+	if (customDialogOBJ.type == 'list') {
+		if (text != '') {
+			bbCode('[*]' + text, '');
+			textarea.focus();
+			textarea.value = '';
+		}
+	}
+}
+
 var newSel;
 function bbCode(openTag, closeTag) {
 	var textComponent = document.getElementById('text'),
@@ -36,51 +114,6 @@ function bbCode(openTag, closeTag) {
 	else textComponent.setSelectionRange(startPos + openTag.length, endPos + openTag.length);
 }
 
-// dialog for select variant content tag
-function bbDialog(tag) {
-	var startPos = textComponent.selectionStart,
-		endPos = textComponent.selectionEnd,
-		pr = '',
-		str = '';
-
-	// dialog after push bb button
-	function dialog(message, hint) {
-		pr = prompt(message, hint);
-		if (pr == '') return bbCode('[' + tag + ']', '[/' + tag + ']');
-		else if (pr == null) return bbCode('', '');
-		else return bbCode('[' + tag + '=' + pr + ']', '[/' + tag + ']');
-	}
-
-	function listDialog(message, hint) {
-		while (pr != null) {
-			pr = prompt(message, hint);
-			if (pr != null) str += '[*]' + pr;
-		}
-		return bbCode('[' + tag + ']' + str, '[/list]');
-	}
-
-	function colorDialog() {
-		var colorBlock = document.createElement('input');
-		colorBlock.type = 'color';
-		colorBlock.value = '#0288d1';
-		colorBlock.hidden;
-		document.body.appendChild(colorBlock);
-		colorBlock.click();
-		colorBlock.addEventListener('change', function() {
-			return bbCode('[' + tag + '=' + colorBlock.value + ']', '[/' + tag + ']');
-		});
-	}
-
-	if (tag == 'URL') dialog('Введите URL адрес', 'http://');
-	else if (tag == 'SPOILER') dialog('Введите название спойлера:', '');
-	else if (tag == 'SIZE') dialog('Введите число от 1 до 7:', '');
-	else if (tag == 'LIST' || tag == 'LIST=1') listDialog('Введите название пункта списка:', '');
-	else if (tag == 'COLOR') colorDialog();
-	else if (tag == 'BACKGROUND') colorDialog();
-
-}
-
-// preview 
 function bbToHtml() {
 	var tex = document.querySelector('.text_form > textarea');
 	var str = tex.value;
@@ -88,7 +121,6 @@ function bbToHtml() {
 	var openTag = /\[([^\]]+)\]/gi;
 	var closeTag = /\[\/([^\]]+)\]/gi;
 
-	// parsing bb cdes
 	var bb = [/\n/gi,
 		/\[b\]([\s\S]*?)\[\/b\]/gi,
 		/\[i\]([\s\S]*?)\[\/i\]/gi,
@@ -120,7 +152,6 @@ function bbToHtml() {
 		/\[mod\]([\s\S]*?)\[\/mod\]/gi,
 		/\[ex\]([\s\S]*?)\[\/ex\]/gi];
 
-	// replace bb codes to html 
 	var html = ['<br>',
 		'<b>$1</b>',
 		'<i>$1</i>',
@@ -170,14 +201,27 @@ function bbToHtml() {
 	document.querySelector('div[name="entry12345678"]').scrollIntoView();
 }
 
-//hak for android 4.4.2 - not working css property vh
-window.addEventListener('resize', function() {
-							var b = document.body;
-							b.style.height = '99%';
-							setInterval(function() {
-											b.style.height = '';
-										}, 1);
-						});
-window.addEventListener('load', function () {
-							document.body.removeAttribute('hidden');
-						});
+// save content textarea
+document.addEventListener('DOMContentLoaded', repastTextareaContent);
+function repastTextareaContent() {
+	var textarea = document.querySelector('#text');
+	window.addEventListener('resize', windowLoaded);
+	function windowLoaded() {
+		var innerText = textarea.value;
+		textarea.value = innerText;
+	}
+}
+
+// hak for android 4.4.2 - not rerun css property vh after resize window
+window.addEventListener('resize', changeBodyHeight);
+function changeBodyHeight() {
+	var b = document.body;
+	b.style.height = '99%';
+	setInterval(function() {b.style.height = '';}, 1);
+}
+
+// remove attribute "hidden" in body after load window
+window.addEventListener('load', removeAttributeHidden);
+function removeAttributeHidden() {
+	document.body.removeAttribute('hidden');
+}

@@ -8,8 +8,9 @@ html body {
   height: 100%;
 }
 #bbcodes {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
+  max-width: 80rem;
 }
 #bbcodes .bb_codes_editor {
   position: relative;
@@ -41,6 +42,7 @@ html body {
   overflow-x: auto;
   text-align: center;
   background-color: #ededed;
+  overflow: hidden;
 }
 #bbcodes .bb_codes_editor .bb_panel .btn {
   display: inline-block;

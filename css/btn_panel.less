@@ -24,10 +24,14 @@ html {
 		
 		.text_form {
 			display: block;
+			margin: 0.5rem;
+			border-radius: 0.125rem;
+			box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.25);
+			overflow: hidden;
 			
 			textarea {
 				display: block;
-				padding: 8px;
+				padding: 1rem;
 				box-sizing: border-box;
 				width: 100%;
 				font-family: 'roboto mono';
@@ -52,6 +56,14 @@ html {
 				margin: 0 -0.125rem -0.25rem;
 				padding: 12px;
 				cursor: pointer;
+
+				&:active {
+					opacity: 0.5;
+				}
+
+				&:hover {
+					background-color: rgba(129, 129, 129, 0.1);
+				}
 			}
 			
 			span {
@@ -79,9 +91,14 @@ html {
 				border: none;
 				outline: none;
 				background-color: @background_color_2;
+				cursor: pointer;
 				
 				&:active {
 					opacity: 0.5;
+				}
+
+				&:hover {
+					background-color: rgb(200, 200, 200);
 				}
 			}
 		}

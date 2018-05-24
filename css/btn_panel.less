@@ -1,0 +1,241 @@
+@color_1: #208ECE;
+@background_color_1: rgb(237,237,237);
+@background_color_2: rgba(128,128,128,0.25);
+@background_color_3: rgba(0,0,0,0.7);
+
+html {
+	font-size: 1rem;
+	height: 100%;
+	
+	body {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+	}
+}
+
+#bbcodes {
+	margin: 0;
+	padding: 0;
+	
+	.bb_codes_editor {
+		position: relative;
+		width: 100%;
+		
+		.text_form {
+			display: block;
+			
+			textarea {
+				display: block;
+				padding: 8px;
+				box-sizing: border-box;
+				width: 100%;
+				font-family: 'roboto mono';
+				font-size: 1rem;
+				border: none;
+				outline: none;
+				background-color: white;
+				resize: vertical;
+			}
+		}
+		
+		.bb_panel {
+			display: block;
+			margin: auto;
+			white-space: nowrap;
+			overflow-x: auto;
+			text-align: center;
+			background-color: @background_color_1;
+			
+			.btn {
+				display: inline-block;
+				margin: 0 -0.125rem -0.25rem;
+				padding: 12px;
+				cursor: pointer;
+			}
+			
+			span {
+				img {
+					display: block;
+					width: 24px;
+					height: 24px;
+				}
+			}
+		}
+		
+		.convert_btn {
+			display: block;
+			padding: 8px;
+			
+			button {
+				display: block;
+				width: 100%;
+				padding: 8px;
+				font-size: 16px;
+				font-weight: bold;
+				opacity: 1;
+				border-radius: 2px;
+				text-transform: uppercase;
+				border: none;
+				outline: none;
+				background-color: @background_color_2;
+				
+				&:active {
+					opacity: 0.5;
+				}
+			}
+		}
+	}
+
+	#color {
+		z-index: 997;
+		display: flex;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		padding: 10px;
+		background-color: @background_color_3;
+		transition: all 0.3s;
+
+		.dialog {
+			display: flex;
+			flex-direction: column;
+			margin: auto;
+			width: 500px;
+			border-radius: 2px;
+			background: white;
+			-webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.2);
+			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.2);
+
+			.title {
+				margin: 20px 20px 10px;
+				font-size: 18px;
+				font-weight: bold;
+			}
+			
+			.content {
+				margin: 10px 20px;
+				overflow: hidden;
+				
+				.row {
+					display: table-row;
+				}
+				
+				.cell {
+					display: table-cell;
+					padding: 16px 8px;
+					vertical-align: middle;
+					text-align: center;
+				}
+				
+				textarea {
+					width: 99%;
+					white-space: nowrap;
+					font-size: 16px;
+					border: none;
+					border-bottom: 2px solid rgba(128,128,128,0.5);
+					outline: none;
+					
+					&:focus {
+						border-bottom: 2px solid #208ECE;
+					}
+				}
+			}
+			
+			.buttons {
+				margin: 10px;
+				text-align: right;
+				
+				BUTTON {
+					padding: 10px 20px;
+					font-size: 16px;
+					color: @color_1;
+					text-transform: uppercase;
+					font-weight: bold;
+					border: none;
+					outline: none;
+					background: none;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+	
+	#prompt {
+		z-index: 997;
+		display: flex;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		padding: 10px;
+		background-color: @background_color_3;
+		transition: all 0.3s;
+		
+		.dialog {
+			display: flex;
+			flex-direction: column;
+			margin: auto;
+			width: 500px;
+			border-radius: 2px;
+			background: white;
+			-webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.2);
+			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.2);
+			
+			.title {
+				margin: 20px 20px 10px;
+				font-size: 18px;
+				font-weight: bold;
+			}
+			
+			.content {
+				margin: 10px 20px;
+				overflow: hidden;
+				
+				.row {
+					display: table-row;
+				}
+				
+				.cell {
+					display: table-cell;
+					padding: 16px 8px;
+					vertical-align: middle;
+					text-align: center;
+				}
+				
+				textarea {
+					width: 99%;
+					white-space: nowrap;
+					font-size: 16px;
+					border: none;
+					border-bottom: 2px solid rgba(128,128,128,0.5);
+					outline: none;
+					
+					&:focus {
+						border-bottom: 2px solid #208ECE;
+					}
+				}
+			}
+			
+			.buttons {
+				margin: 10px;
+				text-align: right;
+				
+				BUTTON {
+					padding: 10px 20px;
+					font-size: 16px;
+					color: @color_1;
+					text-transform: uppercase;
+					font-weight: bold;
+					border: none;
+					outline: none;
+					background: none;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
